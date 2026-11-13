@@ -1,0 +1,36 @@
+/* ===== XC Opt 15: the parents page, in the landing look (as the swimming and athletics parents pages):
+   ticker, brand bar, big heading with the last word yellow, dashed lanes, Mono tabs with the chosen one yellow,
+   house bars with the yellow end dot. ===== */
+.parents main{padding-block:18px 60px}
+.parents .phead{font:900 clamp(40px,8vw,88px)/.9 var(--font-display);text-transform:uppercase;letter-spacing:-.03em;color:var(--lt-ink);margin:6px 0 4px}
+.parents .phead .y{color:var(--lt-y)}
+.parents .psub{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--lt-muted);margin:0 0 18px}
+.parents .ptabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.parents .ptabs button,.parents .pchips button{min-height:48px;padding:8px 14px;border-radius:12px;border:2px solid var(--lt-line);background:transparent;color:var(--lt-ink);font:700 .9rem var(--font-mono);text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
+.parents .pchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.parents .pchips button{min-height:44px;padding:6px 12px;font-size:.85rem}
+.parents .ptabs button[aria-pressed="true"],.parents .pchips button[aria-pressed="true"]{background:#ffc907;border-color:#ffc907;color:#14203f}
+.parents .lane{border-top:3px dashed var(--lt-line);padding:14px 4px}
+.parents .lane h2{font:900 clamp(20px,2.4vw,28px)/1.1 var(--font-display);text-transform:uppercase;margin:0 0 4px;color:var(--lt-ink)}
+.parents .lane .meta{font-family:var(--font-mono);font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;color:var(--lt-muted)}
+.parents .grid{display:grid;grid-template-columns:minmax(0,1fr);gap:0 24px}
+@media (min-width:860px){.parents .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.parents table{margin-top:8px}
+.parents th{background:transparent;border-bottom:2px solid var(--lt-line);color:var(--lt-muted);font-family:var(--font-mono)}
+.parents td{border-bottom-color:var(--lt-line);color:var(--lt-ink)}
+.parents tbody tr:nth-child(even) td{background:var(--lt-row)}
+.parents .hcard{border-top:3px dashed var(--lt-line);border-left:6px solid var(--hc);padding:12px 14px;margin-bottom:12px}
+.parents .hcard.lead{background:var(--lt-glow)}
+.parents .hcard .rk{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--lt-muted);font-size:.8rem;font-weight:700}
+.parents .hcard .hn{font:900 1.3rem var(--font-display);text-transform:uppercase;color:var(--lt-ink)}
+.parents .hcard .pts{font:900 3rem/1 var(--font-display);color:var(--lt-ink);font-variant-numeric:tabular-nums}
+.parents .barw{height:12px;border-bottom:2px dashed var(--lt-line);margin-top:10px;position:relative}
+.parents .bar{height:100%;background:var(--hc);border-radius:999px;position:relative;width:0;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.parents .bar::after{content:"";position:absolute;right:-6px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:#ffc907;box-shadow:0 0 0 4px rgba(255,201,7,.25)}
+.parents .bar.zero::after{display:none}
+@media (prefers-reduced-motion:reduce){.parents .bar{transition:none}}
+.parents .poff{border-top:3px dashed var(--lt-line);padding:18px 4px}
+.parents .poff h2{font:900 1.6rem var(--font-display);text-transform:uppercase;margin:0 0 6px;color:var(--lt-ink)}
+.parents .champ{border-top:3px dashed var(--lt-line);border-left:4px solid var(--gold);padding:10px 12px}
+.parents .champs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.parents .status{min-height:32px}
