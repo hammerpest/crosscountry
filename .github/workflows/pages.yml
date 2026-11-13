@@ -1,0 +1,72 @@
+# Publish the app to GitHub Pages.
+# main goes to the site root, staging goes to /staging/.
+# A push to either branch rebuilds both, so the two links always match their branches.
+# Only the app files are published (index.html, css/, js/, img/, parents/). Tests, baselines, design and docs stay in the repo only.
+# A branch with no index.html yet is skipped.
+name: Publish to GitHub Pages
+
+on:
+  push:
+    branches: [main, staging]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+      - name: Get staging
+        # skipped quietly while there is no staging branch yet
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: staging
+          path: staging
+      - name: Put the site together
+        run: |
+          mkdir -p _site/staging
+          for b in main staging; do
+            dest=_site; [ "$b" = staging ] && dest=_site/staging
+            if [ ! -f "$b/index.html" ]; then echo "No app on $b yet, skipped"; continue; fi
+            cp "$b/index.html" "$dest/"
+            cp -R "$b/css" "$b/js" "$b/img" "$dest/"
+            # each version asks for its own files, so a browser never mixes old and new ones
+            v=$(git -C "$b" rev-parse --short HEAD)
+            sed -i -E "s#(src=\"js/[^\"]+\.js)\"#\1?v=$v\"#g; s#(href=\"css/styles\.css)\"#\1?v=$v\"#" "$dest/index.html"
+            grep -c "?v=$v" "$dest/index.html"
+            # the results page for parents, at /parents/
+            if [ -d "$b/parents" ]; then
+              cp -R "$b/parents" "$dest/"
+              sed -i -E "s#(src=\"[^\"]+\.js)\"#\1?v=$v\"#g; s#(href=\"[^\"]*\.css)\"#\1?v=$v\"#g" "$dest/parents/index.html"
+              grep -c "?v=$v" "$dest/parents/index.html"
+            fi
+          done
+          [ -f _site/index.html ] || echo '<!doctype html><title>CCAS Cross Country</title><p>The app is not published here yet. Try /crosscountry/staging/.' > _site/index.html
+          touch _site/.nojekyll
+          find _site -type f | sort
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
