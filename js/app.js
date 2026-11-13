@@ -131,7 +131,8 @@ const JOBS=[
   {k:"results",n:2,name:"Results",badge:"RESULTS",desc:"Results, HRIS team, newsletter and house points"}
 ];
 const ORG_JOB={k:"organiser",n:3,name:"Carnival Organiser",badge:"CARNIVAL ORGANISER",desc:"Organiser only"};
-const VIEWS={recorder:["record","results","houses"],results:["results","houses"],organiser:["record","results","houses","setup"]};
+/* XC Opt 15.3 (Jordan): the Recorder sees only Record; the organiser opens on Setup */
+const VIEWS={recorder:["record"],results:["results","houses"],organiser:["record","results","houses","setup"]};
 function curJob(){return S.job==="organiser"?ORG_JOB:JOBS.find(j=>j.k===S.job)||null}
 function canOpen(k){if(S.role==="org")return true;return !!S.role&&k===S.role}
 function renderShell(){
@@ -145,7 +146,7 @@ function renderShell(){
   if(!j){renderTicker();renderHome();setStatus();return}
   const views=VIEWS[S.job]||[];
   document.querySelectorAll("nav.tabs button").forEach(b=>b.hidden=!views.includes(b.dataset.view));
-  document.querySelector("nav.tabs").style.gridTemplateColumns=`repeat(${views.length},minmax(0,1fr))`;
+  const nav=document.querySelector("nav.tabs");nav.hidden=views.length<2;nav.style.gridTemplateColumns=`repeat(${views.length},minmax(0,1fr))`;
   if(!views.includes(S.view)){S.view=views[0];document.getElementById("v-record").dataset.built=""}
   renderAll(false);
 }
@@ -219,6 +220,7 @@ function goJob(k){
   S.job=k;ssSet("xc_job",k);S.menu=false;
   /* XC Opt 15.2: Record always opens on All (Girls or Boys is a tap away) */
   S.recSex="all";S.recAge="all";
+  S.view=k==="organiser"?"setup":(VIEWS[k]||["record"])[0];
   document.getElementById("v-record").dataset.built="";
   renderShell();window.scrollTo(0,0);
   flushQueue();
