@@ -14,7 +14,7 @@ const S={
   db:null, canWrite:false, canEdit:false, live:false, loaded:{config:false,roster:false,finishes:false},
   config:clone(DEFAULT_CONFIG), roster:{F:[],M:[]}, extras:[], finishes:[],
   view:"record",
-  recSex:load("recSex","F"), recAge:"all", ticket:"", query:"", selected:null, hl:0,
+  recSex:"all", recAge:"all", ticket:"", query:"", selected:null, hl:0,
   editing:null, showAdd:false, pendingDelete:null,
   resSex:load("resSex","all"), resAge:"all", top10:false, houseSex:"all",
   importText:"", importPreview:null, clearText:"",
@@ -217,6 +217,8 @@ async function pinStart(){
 function goJob(k){
   if(!canOpen(k==="organiser"?"org":k))return;
   S.job=k;ssSet("xc_job",k);S.menu=false;
+  /* XC Opt 15.2: Record always opens on All (Girls or Boys is a tap away) */
+  S.recSex="all";S.recAge="all";
   document.getElementById("v-record").dataset.built="";
   renderShell();window.scrollTo(0,0);
   flushQueue();
