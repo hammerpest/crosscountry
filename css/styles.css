@@ -401,3 +401,34 @@ html.homes .linkbtn{color:var(--lt-ink)}
 html.jobs .topin{gap:8px 12px}
 @media (max-width:520px){.jobmenu{left:0;right:auto;max-width:calc(100vw - 32px)}}
 @media (max-width:520px){html.jobs .jobbadge{font-size:.75rem;padding:5px 9px}html.jobs .brand h1{font-size:1.25rem}html.jobs .crest{width:40px;height:44px}}
+
+/* ===== XC Opt 15.2 (Jordan, 14 November 2026): on a phone, Record fits one screen. The navy header is one slim row
+   (job badge, signal dot, job menu; no title), the view tabs are one short row, and Record a finisher puts the
+   ticket, the age chips (one row that scrolls sideways inside itself) and the name search first. ===== */
+@media (max-width:520px){
+  html.jobs header.top .brand,html.jobs header.top .jobbadge{display:none}
+  html.jobs .jobpill{min-width:0;flex:0 1 auto}html.jobs .jobpill>button{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+  html.jobs header.top .topin{flex-wrap:nowrap;padding-block:6px;gap:8px;justify-content:space-between}
+  html.jobs header.top .status{padding:4px 8px;font-size:.72rem;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;flex:1 1 auto}
+  html.jobs .jobpill>button{min-height:44px;padding:6px 12px;font-size:.85rem}
+  html.jobs main{padding-block:10px 40px}
+  html.jobs nav.tabs{margin-bottom:10px;gap:6px}
+  html.jobs nav.tabs button{flex-direction:row;gap:6px;min-height:44px;padding:6px 4px;font-size:.78rem}
+  html.jobs nav.tabs button svg{width:15px;height:15px}
+  html.jobs .panel.entry{padding:12px 12px 14px;gap:10px;border-radius:12px}
+  html.jobs .entry>div:empty,html.jobs .entry .stack>div:empty{display:none}
+  html.jobs .entry .etitle{display:none}
+  html.jobs .entry>.row:first-child{justify-content:flex-end!important}
+  html.jobs .entry .step{font-size:.9rem;gap:8px}
+  html.jobs .entry .step .n{width:24px;height:24px;font-size:.85rem}
+  html.jobs .ticketlabel{padding:0 12px;font-size:.85rem}
+  html.jobs #ticket{font-size:1.6rem;padding:4px 12px}
+  html.jobs .entry .stack{gap:8px}
+  html.jobs .entry .chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+  html.jobs .entry .chips::-webkit-scrollbar{display:none}
+  html.jobs .entry .chips .chip{flex:0 0 auto}
+  html.jobs .entry #search{font-size:1.05rem;padding:9px 12px}
+  html.jobs .entry .savebar .btn.primary{font-size:1rem;padding:10px 12px}
+  html.jobs .entry .savebar .btn{min-height:52px}
+  html.jobs .sechead{margin-top:6px}
+}
